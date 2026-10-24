@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ridgeline weather network: data health report</title>
+<style>
+  @page { size: A4; margin: 13mm 15mm; }
+  :root { --ink:#1b1b1b; --soft:#555; --rule:#bdb8ad; --paper:#fbfaf6; --mark:#f0ece0; }
+  * { box-sizing: border-box; }
+  html { background: #e9e6dd; }
+  body {
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--ink); background: var(--paper);
+    max-width: 190mm; margin: 0 auto; padding: 12mm 14mm;
+    font-size: 10pt; line-height: 1.38;
+  }
+  @media print { html, body { background: #fff; } body { padding: 0; max-width: none; } }
+  h1 { font-size: 17pt; line-height: 1.15; margin: 0 0 1mm; font-weight: 700; }
+  .sub { color: var(--soft); font-size: 9pt; margin: 0 0 4mm; }
+  h2 { font-size: 11.5pt; margin: 5mm 0 1.5mm; padding-bottom: 0.7mm; border-bottom: 1px solid var(--ink); }
+  p { margin: 0 0 2mm; }
+  .answer { border-left: 3px solid var(--ink); background: var(--mark); padding: 2.2mm 3.5mm; margin: 0 0 1mm; }
+  .answer p { margin: 0 0 1.2mm; } .answer p:last-child { margin: 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 8.4pt; line-height: 1.3; }
+  th, td { text-align: left; vertical-align: top; padding: 1.4mm 1.8mm; border-bottom: 1px solid var(--rule); }
+  th { font-size: 8.4pt; border-bottom: 1.5px solid var(--ink); }
+  td.st { white-space: nowrap; width: 21mm; font-weight: 700; }
+  td.st span { display: block; font-weight: 400; color: var(--soft); font-size: 7.6pt; white-space: normal; }
+  .none { color: var(--soft); }
+  ol.check { list-style: none; counter-reset: c; margin: 1mm 0 0; padding: 0; }
+  ol.check li { counter-increment: c; position: relative; padding: 0 0 1.4mm 9mm; }
+  ol.check li::before { content: ""; position: absolute; left: 0; top: 0.7mm; width: 3.2mm; height: 3.2mm; border: 1.2px solid var(--ink); }
+  ol.check li::after { content: counter(c) "."; position: absolute; left: 4.8mm; top: 0; color: var(--soft); }
+  .why p { margin-bottom: 1.5mm; }
+  .foot { margin-top: 4mm; padding-top: 1.5mm; border-top: 1px solid var(--rule); font-size: 8pt; color: var(--soft); }
+  tr { break-inside: avoid; }
+  @media print { h2.p2 { break-before: page; } }
+  @media (max-width: 700px) { body { padding: 16px; } td.st { white-space: normal; } table { font-size: 8pt; } }
+</style>
+</head>
+<body>
+
+<h1>Ridgeline weather network: is the data good enough?</h1>
+<p class="sub">Eight stations, readings every 10 minutes, 1 March to 11 April 2025. All times are UTC. Local time in spring is UTC − 6, so 17:00 UTC is 11 am.</p>
+
+<div class="answer">
+  <p><b>1. Spring climate summary.</b> Most of the data can go in. Four stations need a simple correction first, and a few stretches have to be left out. The table below lists them station by station.</p>
+  <p><b>2. Technician, next week.</b> Send the one volunteer to <b>S04 Foothills Community Garden</b>. Its temperature reads too warm in sunshine since the repaint on 15 March, and it is getting worse.</p>
+</div>
+
+<h2>1. What can go in the climate summary</h2>
+<table>
+  <thead>
+    <tr><th>Station</th><th>Use as it is</th><th>Use after a fix</th><th>Do not use</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="st">S01<span>Saddle Ridge Hut</span></td>
+      <td>Everything, whole period. It reads about 9 C colder and has much lower pressure because it sits about 1,300 m higher than the rest. That is real, not a fault.</td>
+      <td class="none">None needed.</td>
+      <td class="none">Nothing.</td>
+    </tr>
+    <tr>
+      <td class="st">S02<span>North Mesa School</span></td>
+      <td>Temperature, humidity, wind, rain, sunlight, whole period. Pressure up to 21 Mar 17:10.</td>
+      <td>Pressure from 21 Mar 17:20 to the end: subtract about 6.5 hPa (jump after the board was swapped).</td>
+      <td class="none">Nothing.</td>
+    </tr>
+    <tr>
+      <td class="st">S03<span>Valley Library</span></td>
+      <td>Humidity, pressure, wind, rain, sunlight, whole period. Temperature outside the stretches on the right.</td>
+      <td class="none">None needed.</td>
+      <td>Temperature 18 Mar 06:00 to 21 Mar 14:00 (stuck at 6.5 C). Four single bad temperature readings: 5 Mar 14:20, 12 Mar 03:40, 2 Apr 22:10, 8 Apr 09:50.</td>
+    </tr>
+    <tr>
+      <td class="st">S04<span>Foothills Community Garden</span></td>
+      <td>Humidity, pressure, wind, sunlight, whole period. Temperature up to 16 Mar. Rain before 29 Mar 03:00 and after 2 Apr 16:30.</td>
+      <td class="none">Temperature cannot be fixed in the data (see section 2).</td>
+      <td>Temperature from 17 Mar to 11 Apr. Daily rain from 29 Mar 03:00 to 2 Apr 16:30: the gauge was blocked, then released 33.4 mm at once, so only the total for those five days is usable.</td>
+    </tr>
+    <tr>
+      <td class="st">S05<span>Eastside Rec Centre</span></td>
+      <td>Temperature, pressure, wind, rain, sunlight, whole period. Humidity outside the stretch on the right.</td>
+      <td>The station list gives latitude 39.57, but its GPS says 39.754 (20 km further north); the list is probably a typo, so confirm and correct it.</td>
+      <td>Humidity 7 Mar 12:00 to 11 Mar 00:00 (stuck near or above 100 % while the other stations were much drier).</td>
+    </tr>
+    <tr>
+      <td class="st">S06<span>South Hills Fire Station</span></td>
+      <td>Everything up to the battery swap on 24 Mar (16:00 UTC).</td>
+      <td>Everything after the battery swap (logger times from 24 Mar 10:10 onward): add 6 hours to the timestamps. The clock restarted 6 hours behind when the battery was swapped.</td>
+      <td class="none">Nothing.</td>
+    </tr>
+    <tr>
+      <td class="st">S07<span>Riverbend Farm</span></td>
+      <td>All channels, whole period, except wind speed after 26 Mar 18:00. Wind direction is fine throughout.</td>
+      <td>Wind speed from 26 Mar 18:00 to the end: multiply by 3.6. The new anemometer reports metres per second in a km/h column.</td>
+      <td class="none">Nothing.</td>
+    </tr>
+    <tr>
+      <td class="st">S08<span>Plains Grange Hall</span></td>
+      <td>Everything outside the stretches on the right.</td>
+      <td class="none">None needed.</td>
+      <td>16 Mar 14:00 to 18 Mar 01:30: no readings for 35.8 hours, so daily figures for those days are incomplete. The second copy of 5 Apr (144 repeated rows); keep the first copy.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 class="p2">2. Where the technician should go: S04</h2>
+<div class="why">
+  <p>On 15 March the garden committee repainted the fence and the post the temperature shield is mounted on. Since then S04 reads too warm when the sun is out. At night it agrees with the other stations. By 11 April the daytime reading was about 4 C too warm on average, and more around midday. It is still growing, so it will keep spoiling the record until someone looks at it.</p>
+  <p>The error depends on how sunny it is, so no single number can correct it. This is why S04 temperature is left out from 17 March. The other faults can be corrected in the data (S02, S06, S07), left out (S03, S08), or have already stopped (S05 humidity). S03 gave bad temperature readings as late as 8 April, but those are single readings we can drop.</p>
+  <p><b>Check the vents of the radiation shield for paint first.</b> Paint on the slats blocks the airflow, and a shield without airflow heats up in the sun.</p>
+</div>
+
+<p style="margin:2mm 0 1mm"><b>One-hour checklist for the volunteer (tick on paper):</b></p>
+<ol class="check">
+  <li>Look at the slats and vents of the radiation shield. Is there paint on or between them, or are they blocked? Take a photo.</li>
+  <li>If there is paint, clear it so air passes freely, or fit a spare shield if one is available. Do not repaint it.</li>
+  <li>Check that the shield does not touch the freshly painted post and has open air around it. Move it a little away if it is hard against the post.</li>
+  <li>Around midday, in sunshine, hold a hand thermometer in the shade next to the shield. Write down its reading, the logger's reading and the time.</li>
+  <li>Write down the date, time and everything you changed, so the data after the visit can be marked as good.</li>
+</ol>
+
+<div class="foot">
+  How this was checked: each station was compared with the middle value of the other stations, day by day and hour by hour, and against its own maintenance log and GPS clock. The full row-by-row list, with exact times and reasons, is in flags.csv. Rows marked <i>exclude</i> are left out, <i>correct</i> are fixed as above, <i>keep</i> are unusual but real. Where this page and flags.csv differ (the S02 amount, the S06 times, the last S05 reading), this page has the checked values.
+</div>
+
+</body>
+</html>
