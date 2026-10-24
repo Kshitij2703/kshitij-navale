@@ -361,6 +361,8 @@ def main():
                             run_end += pd.Timedelta(minutes=10)
                         end, dump = run_end, later.loc[t_first:run_end].sum()
                         used.update(later.loc[t_first:run_end].index)
+                    if not len(later):
+                        continue            # dry here while others got rain, but no stored-water dump afterwards: ordinary local weather
                     miss = day_sum.drop(columns=s).median(axis=1).loc[d0:d1].sum()
                     add(s, "rain_mm", start, end, "rain gauge blocked, then released", "exclude",
                         f"Other stations' median rain {miss:.1f} mm in this window; this gauge recorded 0, then "
@@ -393,8 +395,19 @@ def main():
             for s in sids:
                 for ch, H, thr, min_len, gap in (("rh_pct", HR, 25.0, 24, 12), ("temp_c", HT, 6.0, 12, 6), ("pressure_hpa", HP, 4.0, 12, 6)):
                     d = dev_of(H, s)
+                    if ch == "pressure_hpa":
+                        # a high station sees smaller weather swings than the others (thinner air): remove that scaled part
+                        A = H - H.median()
+                        ref = others_med(A, s)
+                        ok = A[s].notna() & ref.notna()
+                        if ok.sum() > 200 and ref[ok].std() > 0:
+                            beta = float(np.polyfit(ref[ok], A[s][ok], 1)[0])
+                            beta = min(max(beta, 0.5), 1.5)
+                            d = A[s] - beta * ref
                     d = d - d.rolling(216, center=True, min_periods=72).median()     # ignore slow level changes (steps/drifts are tested later)
                     d = adj(d)
+                    if ch == "pressure_hpa":
+                        thr = max(thr, 6 * 1.4826 * float(d.abs().median()))      # stations differ in how noisy this comparison is
                     for a, b in windows((d.abs() > thr).to_numpy(), min_len, gap):
                         sign = np.sign(d.iloc[a:b + 1].mean())
                         k = 0
@@ -449,7 +462,24 @@ def main():
                 refg = others_med(Gn, s)
                 rg = np.log((Gn[s] / refg).where((refg > 0.05) & (Gn[s] > 0.01)))
                 series["ghi_wm2"] = (rg, "ghi_wm2", math.log(1.12), "log", HG)
+                yd, yn = series["temp_c day"][0], series["temp_c night"][0]
+                drift_done = False
+                if yd.notna().sum() > 20:
+                    z = yd - yd.iloc[:10].median()
+                    roll = z.rolling(3, min_periods=2).mean()
+                    okr = roll.notna().to_numpy()
+                    low = (roll < 0.5).to_numpy() & okr
+                    if okr.any() and roll.dropna().iloc[-1] >= 1.5 and low.any():
+                        i0 = int(np.where(low)[0][-1]) + 1
+                        if i0 < len(roll) - 3:
+                            night_end = float((yn - yn.iloc[:10].median()).iloc[i0:].mean())
+                            if night_end < 0.4 * float(z.iloc[i0:].mean()):
+                                cands.append(dict(s=s, name="temp_c day", ch="temp_c", mode="add", kind="ramp",
+                                                  t=roll.index[i0], amp=float(roll.dropna().iloc[-1]), end=end_t, r2=0.9))
+                                drift_done = True
                 for name, (y, ch, thr, mode, H) in series.items():
+                    if drift_done and name.startswith("temp_c"):
+                        continue
                     fm = fit_models(y)
                     if not fm:
                         continue
