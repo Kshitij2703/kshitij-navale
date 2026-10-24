@@ -6,4 +6,6 @@ data/
 gps/
 *.nmea
 stations.csv
-maintenance_log.md
+maintenance_log.mdexplore_output.txt
+explore_daily_full.txt
+flags_debug*
