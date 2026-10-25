@@ -42,7 +42,7 @@
 <body>
 
 <h1>Ridgeline weather network: is the data good enough?</h1>
-<p class="sub">Eight stations, readings every 10 minutes, 1 March to 11 April 2025. All times are UTC. Local time in spring is UTC − 6, so 17:00 UTC is 11 am.</p>
+<p class="sub">Eight stations, readings every 10 minutes, 1 March to 11 April 2025. All times are UTC.</p>
 
 <div class="answer">
   <p><b>1. Spring climate summary.</b> Most of the data can go in. Four stations need a simple correction first, and a few stretches have to be left out. The table below lists them station by station.</p>
@@ -63,8 +63,8 @@
     </tr>
     <tr>
       <td class="st">S02<span>North Mesa School</span></td>
-      <td>Temperature, humidity, wind, rain, sunlight, whole period. Pressure up to 21 Mar 17:10.</td>
-      <td>Pressure from 21 Mar 17:20 to the end: subtract about 6.5 hPa (jump after the board was swapped).</td>
+      <td>Temperature, humidity, wind, rain, sunlight, whole period. Pressure up to 21 Mar 17:00.</td>
+      <td>Pressure from 21 Mar 17:00 to the end: subtract about 6.5 hPa (jump after the board was swapped).</td>
       <td class="none">Nothing.</td>
     </tr>
     <tr>
@@ -83,12 +83,12 @@
       <td class="st">S05<span>Eastside Rec Centre</span></td>
       <td>Temperature, pressure, wind, rain, sunlight, whole period. Humidity outside the stretch on the right.</td>
       <td>The station list gives latitude 39.57, but its GPS says 39.754 (20 km further north); the list is probably a typo, so confirm and correct it.</td>
-      <td>Humidity 7 Mar 12:00 to 11 Mar 00:00 (stuck near or above 100 % while the other stations were much drier).</td>
+      <td>Humidity 7 Mar 12:00 to 11 Mar 00:00 (read near 100 %, up to 104 %, while the others did not).</td>
     </tr>
     <tr>
       <td class="st">S06<span>South Hills Fire Station</span></td>
       <td>Everything up to the battery swap on 24 Mar (16:00 UTC).</td>
-      <td>Everything after the battery swap (logger times from 24 Mar 10:10 onward): add 6 hours to the timestamps. The clock restarted 6 hours behind when the battery was swapped.</td>
+      <td>Everything after the battery swap: add 6 hours to the timestamps. The clock restarted 6 hours behind when the battery was swapped.</td>
       <td class="none">Nothing.</td>
     </tr>
     <tr>
@@ -123,7 +123,7 @@
 </ol>
 
 <div class="foot">
-  How this was checked: each station was compared with the middle value of the other stations, day by day and hour by hour, and against its own maintenance log and GPS clock. The full row-by-row list, with exact times and reasons, is in flags.csv. Rows marked <i>exclude</i> are left out, <i>correct</i> are fixed as above, <i>keep</i> are unusual but real. Where this page and flags.csv differ (the S02 amount, the S06 times, the last S05 reading), this page has the checked values.
+  How this was checked: each station was compared with the middle value of the other stations, day by day and hour by hour, and against its own maintenance log and GPS clock. The full row-by-row list, with exact times and reasons, is in flags.csv. Rows marked <i>exclude</i> are left out, <i>correct</i> are fixed as above, <i>keep</i> are unusual but real.
 </div>
 
 </body>
