@@ -1,6 +1,6 @@
 Kshitij Navale
 kshitijnavale2703@gmail.com
-Video: <Will upload later>
+Video: https://drive.google.com/file/d/1Kh8UW5LWV3HrHGmUVrBXykLyUe33Ajrs/view?usp=sharing
 Run: python check.py <path to data_pack>
 
 # Ridgeline weather network: data check
